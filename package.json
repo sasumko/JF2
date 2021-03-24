@@ -1,0 +1,19 @@
+{
+  "name": "com.sasumko.jf2",
+  "version": "0.0.1",
+  "displayName": "JF2",
+  "description": "sasumko dev framework",
+  "unity": "2018.1",
+  "dependencies": {},
+  "keywords": [
+    "keyword1",
+    "keyword2",
+    "keyword3"
+  ],
+  "author": {
+    "name": "sasumko",
+    "email": "unity@example.com",
+    "url": "https://www.unity3d.com"
+  },
+  "type": "library"
+}
