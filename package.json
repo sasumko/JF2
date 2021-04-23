@@ -1,10 +1,9 @@
 {
-  "name": "com.sasumko.jf2",
+  "name": "com.sasumko.jframe",
   "version": "0.0.1",
-  "displayName": "JF2",
-  "description": "sasumko dev framework",
-  "unity": "2018.1",
-  "dependencies": {},
+  "displayName": "JFrame",
+  "description": "JFrame",
+  "unity": "2020.3",
   "keywords": [
     "keyword1",
     "keyword2",
@@ -12,8 +11,8 @@
   ],
   "author": {
     "name": "sasumko",
-    "email": "unity@example.com",
-    "url": "https://www.unity3d.com"
+    "email": "sasumko@gmail.com",
+    "url": ""
   },
   "type": "library"
 }
