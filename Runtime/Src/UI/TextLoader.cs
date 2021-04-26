@@ -9,9 +9,7 @@ namespace JFrame
     [RequireComponent(typeof(UnityEngine.UI.Text))]
     public class TextLoader : MonoBehaviour
     {
-#if STRING_HEADER_INCLUDED
         public H_Str.eTab Tab;
-
         public string Key;
 
         public bool Refresh;
@@ -98,7 +96,7 @@ namespace JFrame
         {
 
         }
-#endif
+
     }
 
 

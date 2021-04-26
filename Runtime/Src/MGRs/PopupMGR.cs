@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System;
 
+using NLua;
 using LitJson;
 
 namespace JFrame
@@ -100,9 +101,8 @@ namespace JFrame
                 _listPopups = new List<CPopupBase>();
             }
             _listPopups.Add(_ret);
-#if DEFINE_HEADER_INCLUDED
+            
             SetCanvasDepth(_ret.gameObject, H_DEFINES.POPUP_DEPTH_NORMAL + _listPopups.Count);
-#endif
             _ret.transform.parent = transform;
             _ret.transform.localPosition = Vector3.zero;
 
@@ -163,9 +163,7 @@ namespace JFrame
                 if (_goLoading != null)
                 {
                     _goLoading.transform.parent = transform;
-#if DEFINE_HEADER_INCLUDED
                     SetCanvasDepth(_goLoading, H_DEFINES.POPUP_DEPTH_LOADING);
-#endif
                 }
             }
 

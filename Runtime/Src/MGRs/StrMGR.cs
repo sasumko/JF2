@@ -12,8 +12,6 @@ namespace JFrame
 
     public class StrMgr : Singleton<StrMgr>
     {
-        List<string> ExportedHeaders;
-        int CommonTabId;
         public string Locale { get; set; }
         JsonData StrData;
         public Font CurrFont { get; set; }
@@ -37,11 +35,9 @@ namespace JFrame
             //FloatingUIMGR.Instance.OnChangeFont();
         }
 
-        public void Reset (List<string> _header, int _commonTabId, string _locale = "ko")
+        public void Reset (string _locale = "ko")
         {
             SetLocale(_locale);
-            ExportedHeaders = _header;
-            CommonTabId = _commonTabId;
         }
 
         public void InitStringByUserLocale()
@@ -66,27 +62,27 @@ namespace JFrame
             RefreshTextLoaders();
         }
 
-        //public string GetString<T>(T _tab, string strIdName, bool _bConvertPP = true) where T : System.Enum
-        public string GetString (string _tab, string strIdName, bool _bConvertPP = true)
+        public string GetString (H_Str.eTab _tab, string strIdName, bool _bConvertPP = true)
         {
-            int _tabId = -1;
-            if (ExportedHeaders != null)
+            string _ret = GetString((int)_tab, strIdName);
+
+            if (_bConvertPP)
             {
-                _tabId = ExportedHeaders.FindIndex(_item => _item.CompareTo(_tab) == 0);
+                _ret = ConvertPP(_ret);
             }
-                
-            return GetString(_tabId, strIdName, _bConvertPP);
+
+            return _ret;
 
         }
 
-        public string GetString (int tabId, string strIdName, bool _bConvertPP = false)
+        public string GetString (int tabId, string strIdName)
         {
             if (StrData == null || string.IsNullOrEmpty(strIdName) == true)
             {
                 return null;
             }
 
-            if (StrData.Count <= tabId || tabId < 0)
+            if (StrData.Count <= tabId)
             {
                 return null;
             }
@@ -103,13 +99,6 @@ namespace JFrame
             {
                 _ret = changeHindiGlyph(_ret);
             }
-
-            if (_bConvertPP)
-            {
-                _ret = ConvertPP(_ret);
-            }
-
-            
             return _ret;
         }
 
@@ -170,22 +159,16 @@ namespace JFrame
             StrData = null;
             StrData = new JsonData();
 
-            if (ExportedHeaders == null)
-            {
-                return;
-            }
-
-            foreach (string _name in ExportedHeaders)
+            foreach (string _name in System.Enum.GetNames(typeof(H_Str.eTab)))
             //for (int i = 0; i < H_Str.eTab.Length; i++)
             {
                 string _path = string.Format("Text/{0}/{1}", Locale, _name);
                 JsonData _strSheet = DataMGR.Instance.ReadJson(_path);
                 StrData.Add(_strSheet);
             }
-
         }
 
-        public string ConvertPP(string _text)
+        public static string ConvertPP(string _text)
         {
             int _indexOfPP = _text.IndexOf("\\s00");
 
@@ -198,7 +181,7 @@ namespace JFrame
                 {
                     _strId = "S00_GA";
                 }
-                string _pp = StrMgr.Instance.GetString(CommonTabId, _strId);
+                string _pp = StrMgr.Instance.GetString(H_Str.eTab.Common, _strId);
 
                 _text = _text.Replace("\\s00", _pp);
                 _indexOfPP = _text.IndexOf("\\s00");
@@ -215,7 +198,7 @@ namespace JFrame
                 {
                     _strId = "S01_RUL";
                 }
-                string _pp = StrMgr.Instance.GetString(CommonTabId, _strId);
+                string _pp = StrMgr.Instance.GetString(H_Str.eTab.Common, _strId);
 
                 _text = _text.Replace("\\s01", _pp);
                 _indexOfPP = _text.IndexOf("\\s01");
@@ -232,11 +215,12 @@ namespace JFrame
                 {
                     _strId = "S02_NUN";
                 }
-                string _pp = StrMgr.Instance.GetString(CommonTabId, _strId);
+                string _pp = StrMgr.Instance.GetString(H_Str.eTab.Common, _strId);
 
                 _text = _text.Replace("\\s02", _pp);
                 _indexOfPP = _text.IndexOf("\\s02");
             }
+
             return _text;
         }
 
